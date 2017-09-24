@@ -14,7 +14,7 @@ Simple PromiseKit based client for Apple's StoreKit IAP API.
     - `.failed`
     - `.restored`
     - `.deferred`
-- When should we call `[finishTransaction(_:)](https://developer.apple.com/documentation/storekit/skpaymentqueue/1506003-finishtransaction)`?
+- When should we call `finishTransaction(_:)`? See [documentation](https://developer.apple.com/documentation/storekit/skpaymentqueue/1506003-finishtransaction).
 
 ## Examples
 
