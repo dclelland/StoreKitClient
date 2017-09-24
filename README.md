@@ -6,19 +6,46 @@ Simple PromiseKit based client for Apple's StoreKit IAP API.
 
 - [PromiseKit](https://github.com/mxcl/PromiseKit/)
 
-## Interface
+## Examples
 
+Get products:
+
+```swift
+StoreKitClient.getProducts(productIdentifiers: ["ABC"]).then { productsResponse in
+    // Handle products...
+}.catch { error in
+    // Handle exception...
+}
 ```
-/// Fetches the products associated with the given product identifiers.
-StoreKitClient.getProducts(productIdentifiers: Set<String>) -> Promise<SKProductsResponse>
 
-/// Attempts to complete the given payment.
-/// Will throw an error if the `SKPaymentTransaction` comes back with `.error` set.
-StoreKitClient.getTransaction(payment: SKPayment) -> Promise<SKPaymentTransaction>
+Make a payment:
 
-/// Fetches the completed transactions.
-StoreKitClient.getTransactions() -> Promise<[SKPaymentTransaction]>
+```swift
+let product: SKProduct = /* ... get product from `StoreKitClient.getProducts` */
+let payment: SKPayment = SKPayment(product: product)
+StoreKitClient.getTransaction(payment: payment).then { transaction in
+    // Check `transaction.transactionState`...
+}.catch { error in
+    // Handle exception...
+}
+```
 
-/// Refreshes the In-App Purchase receipt.
-StoreKitClient.getReceipt(receiptProperties properties: [String : Any]? = nil) -> Promise<SKReceiptRefreshRequest>
+Get completed transactions:
+
+```swift
+StoreKitClient.getTransactions().then { transactions in
+    // Handle completed transactions...
+}.catch { error in
+    // Handle exception...
+}
+```
+
+Refresh the receipt:
+
+```swift
+StoreKitClient.getReceipt().then { receipt in
+    // Check `Bundle.main.appStoreReceiptURL`...
+}.catch { error in
+    // Handle exception...
+}
 ```
