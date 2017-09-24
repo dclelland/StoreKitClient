@@ -6,16 +6,6 @@ Simple PromiseKit based client for Apple's StoreKit IAP API.
 
 - [PromiseKit](https://github.com/mxcl/PromiseKit/)
 
-## Todo
-
-- Test `StoreKitTransactionRequest` with the different transaction states:
-    - `.purchasing`
-    - `.purchased`
-    - `.failed`
-    - `.restored`
-    - `.deferred`
-- When should we call `finishTransaction(_:)`? See [documentation](https://developer.apple.com/documentation/storekit/skpaymentqueue/1506003-finishtransaction).
-
 ## Examples
 
 Get products:

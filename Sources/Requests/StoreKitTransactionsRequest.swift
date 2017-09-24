@@ -16,6 +16,15 @@ internal class StoreKitTransactionsRequest: StoreKitRequest<[SKPaymentTransactio
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
+    override func success(_ value: [SKPaymentTransaction]) {
+        SKPaymentQueue.default().remove(self)
+        super.success(value)
+    }
+    
+    override func failure(_ error: Error) {
+        SKPaymentQueue.default().remove(self)
+        super.failure(error)
+    }
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         self.transactions.append(contentsOf: transactions)
@@ -23,12 +32,10 @@ internal class StoreKitTransactionsRequest: StoreKitRequest<[SKPaymentTransactio
     
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         success(transactions)
-        SKPaymentQueue.default().remove(self)
     }
     
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         failure(error)
-        SKPaymentQueue.default().remove(self)
     }
     
 }

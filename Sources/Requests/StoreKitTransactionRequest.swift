@@ -18,19 +18,30 @@ internal class StoreKitTransactionRequest: StoreKitRequest<SKPaymentTransaction>
         SKPaymentQueue.default().add(payment)
     }
     
+    override func success(_ value: SKPaymentTransaction) {
+        SKPaymentQueue.default().finishTransaction(value)
+        SKPaymentQueue.default().remove(self)
+        super.success(value)
+    }
+    
+    override func failure(_ error: Error) {
+        SKPaymentQueue.default().remove(self)
+        super.failure(error)
+    }
+    
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         guard let transaction = transactions.first(where: { $0.payment == payment }) else {
             return
         }
         
-        if let error = transaction.error {
-            failure(error)
-        } else {
+        switch transaction.transactionState {
+        case .purchased:
             success(transaction)
+        case .failed:
+            failure(transaction.error ?? StoreKitError.unknown)
+        default:
+            break
         }
-        
-        SKPaymentQueue.default().finishTransaction(transaction)
-        SKPaymentQueue.default().remove(self)
     }
     
 }
