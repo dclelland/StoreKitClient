@@ -11,7 +11,8 @@ Simple PromiseKit based client for Apple's StoreKit IAP API.
 Get products:
 
 ```swift
-StoreKitClient.getProducts(productIdentifiers: ["ABC"]).then { productsResponse in
+let productIdentifiers: Set<String> = /* ... get product identifers */
+StoreKitClient.getProducts(productIdentifiers: productIdentifiers).then { productsResponse in
     // Handle products...
 }.catch { error in
     // Handle exception...
