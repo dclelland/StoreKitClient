@@ -13,17 +13,18 @@ internal class StoreKitTransactionsRequest: StoreKitRequest<[SKPaymentTransactio
     
     override init() {
         super.init()
+        
+        guard SKPaymentQueue.canMakePayments() else {
+            failure(StoreKitError.paymentsUnavailable)
+            return
+        }
+        
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
-    override func success(_ value: [SKPaymentTransaction]) {
-        SKPaymentQueue.default().remove(self)
-        super.success(value)
-    }
     
-    override func failure(_ error: Error) {
+    deinit {
         SKPaymentQueue.default().remove(self)
-        super.failure(error)
     }
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {

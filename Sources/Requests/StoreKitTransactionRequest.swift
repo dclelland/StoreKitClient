@@ -13,20 +13,20 @@ internal class StoreKitTransactionRequest: StoreKitRequest<SKPaymentTransaction>
     
     init(payment: SKPayment) {
         self.payment = payment
+        
         super.init()
+        
+        guard SKPaymentQueue.canMakePayments() else {
+            failure(StoreKitError.paymentsUnavailable)
+            return
+        }
+        
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().add(payment)
     }
     
-    override func success(_ value: SKPaymentTransaction) {
-        SKPaymentQueue.default().finishTransaction(value)
+    deinit {
         SKPaymentQueue.default().remove(self)
-        super.success(value)
-    }
-    
-    override func failure(_ error: Error) {
-        SKPaymentQueue.default().remove(self)
-        super.failure(error)
     }
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
@@ -36,8 +36,10 @@ internal class StoreKitTransactionRequest: StoreKitRequest<SKPaymentTransaction>
         
         switch transaction.transactionState {
         case .purchased:
+            SKPaymentQueue.default().finishTransaction(transaction)
             success(transaction)
         case .failed:
+            SKPaymentQueue.default().finishTransaction(transaction)
             failure(transaction.error ?? StoreKitError.unknown)
         default:
             break

@@ -16,7 +16,7 @@ internal class StoreKitRequest<T>: NSObject {
     
     override init() {
         super.init()
-        self.retainCycle = self
+        retainCycle = self
     }
     
     var promise: Promise<T> {
