@@ -2,6 +2,8 @@
 
 Simple PromiseKit based client for Apple's StoreKit IAP API.
 
+Largely based on the existing [PromiseKit/StoreKit wrapper](https://github.com/PromiseKit/StoreKit).
+
 ## Dependencies
 
 - [PromiseKit](https://github.com/mxcl/PromiseKit/)
