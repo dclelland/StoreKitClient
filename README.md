@@ -29,7 +29,12 @@ let payment: SKPayment = SKPayment(product: product)
 StoreKitClient.getTransaction(payment: payment).then { transaction in
     // Check `transaction.transactionState`...
 }.catch { error in
-    // Handle exception...
+    switch ((error as NSError).domain, (error as NSError).code) {
+    case (SKErrorDomain, SKError.paymentCancelled.rawValue):
+        // User cancelled, don't show an error...
+    default:
+        // Handle exception...
+    }
 }
 ```
 
