@@ -20,7 +20,7 @@ extension StoreKitError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .paymentsUnavailable:
-            return "Payments unavailable"
+            return "Payments are unavailable."
         case .unknown:
             return "Something went wrong."
         }
