@@ -28,7 +28,20 @@ internal class StoreKitTransactionsRequest: StoreKitRequest<[SKPaymentTransactio
     }
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        self.transactions.append(contentsOf: transactions)
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case .purchased:
+                SKPaymentQueue.default().finishTransaction(transaction)
+                self.transactions.append(transaction)
+            case .restored:
+                SKPaymentQueue.default().finishTransaction(transaction)
+                self.transactions.append(transaction)
+            case .failed:
+                SKPaymentQueue.default().finishTransaction(transaction)
+            default:
+                break
+            }
+        }
     }
     
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {

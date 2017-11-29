@@ -38,6 +38,9 @@ internal class StoreKitTransactionRequest: StoreKitRequest<SKPaymentTransaction>
         case .purchased:
             SKPaymentQueue.default().finishTransaction(transaction)
             success(transaction)
+        case .restored:
+            SKPaymentQueue.default().finishTransaction(transaction)
+            success(transaction)
         case .failed:
             SKPaymentQueue.default().finishTransaction(transaction)
             failure(transaction.error ?? StoreKitError.unknown)
