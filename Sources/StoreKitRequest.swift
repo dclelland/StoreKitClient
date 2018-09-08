@@ -24,12 +24,12 @@ internal class StoreKitRequest<T>: NSObject {
     }
     
     func success(_ value: T) {
-        pending.fulfill(value)
+        pending.resolver.fulfill(value)
         retainCycle = nil
     }
     
     func failure(_ error: Error) {
-        pending.reject(error)
+        pending.resolver.reject(error)
         retainCycle = nil
     }
     
