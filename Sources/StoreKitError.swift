@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import PromiseKit
+import StoreKit
 
 public enum StoreKitError: Error {
     
@@ -23,6 +25,19 @@ extension StoreKitError: LocalizedError {
             return "Payments are unavailable."
         case .unknown:
             return "Something went wrong."
+        }
+    }
+    
+}
+
+extension SKError: CancellableError {
+    
+    public var isCancelled: Bool {
+        switch code {
+        case .paymentCancelled:
+            return true
+        default:
+            return false
         }
     }
     
