@@ -30,11 +30,11 @@ extension StoreKitError: LocalizedError {
     
 }
 
-extension SKError: CancellableError {
+extension NSError: CancellableError {
     
     public var isCancelled: Bool {
-        switch code {
-        case .paymentCancelled:
+        switch (domain, code) {
+        case (SKErrorDomain, SKError.paymentCancelled.rawValue):
             return true
         default:
             return false
